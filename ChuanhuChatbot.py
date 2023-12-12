@@ -1,5 +1,8 @@
 # -*- coding:utf-8 -*-
 import logging
+import matplotlib
+matplotlib.use("agg")
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)d] %(message)s",
@@ -324,9 +327,9 @@ with gr.Blocks(theme=small_and_beautiful_theme) as demo:
                                 value=user_name.value,
                                 lines=1,
                             )
-                    with gr.Tab(label=i18n("拓展")):
-                        gr.Markdown(
-                            "Will be here soon...\n(We hope)\n\nAnd we hope you can help us to make more extensions!")
+                    # with gr.Tab(label=i18n("拓展")):
+                    #     gr.Markdown(
+                    #         "Will be here soon...\n(We hope)\n\nAnd we hope you can help us to make more extensions!")
 
                     # changeAPIURLBtn = gr.Button(i18n("🔄 切换API地址"))
 
@@ -414,13 +417,13 @@ with gr.Blocks(theme=small_and_beautiful_theme) as demo:
                             elem_classes="view-only-textbox no-container",
                         )
 
-                    with gr.Tab(label=i18n("关于"), elem_id="about-tab"):
-                        gr.Markdown(
-                            '<img alt="Chuanhu Chat logo" src="file=web_assets/icon/any-icon-512.png" style="max-width: 144px;">')
-                        gr.Markdown("# "+i18n("川虎Chat"))
-                        gr.HTML(get_html("footer.html").format(
-                            versions=versions_html()), elem_id="footer")
-                        gr.Markdown(CHUANHU_DESCRIPTION, elem_id="description")
+                    # with gr.Tab(label=i18n("关于"), elem_id="about-tab"):
+                    #     gr.Markdown(
+                    #         '<img alt="Chuanhu Chat logo" src="file=web_assets/icon/any-icon-512.png" style="max-width: 144px;">')
+                    #     gr.Markdown("# "+i18n("川虎Chat"))
+                    #     gr.HTML(get_html("footer.html").format(
+                    #         versions=versions_html()), elem_id="footer")
+                    #     gr.Markdown(CHUANHU_DESCRIPTION, elem_id="description")
 
             with gr.Box(elem_id="chuanhu-training"):
                 with gr.Row():
@@ -792,7 +795,7 @@ logging.info(
     + colorama.Style.RESET_ALL
 )
 # 默认开启本地服务器，默认可以直接从IP访问，默认不创建公开分享链接
-demo.title = i18n("川虎Chat 🚀")
+demo.title = i18n("AI-Lab 🚀")
 
 if __name__ == "__main__":
     reload_javascript()

