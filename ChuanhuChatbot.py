@@ -197,7 +197,7 @@ with gr.Blocks(theme=small_and_beautiful_theme) as demo:
                     gr.Markdown("## "+i18n("工具箱"))
                     gr.HTML(get_html("close_btn.html").format(
                         obj="toolbox"), elem_classes="close-btn")
-                with gr.Tabs(elem_id="chuanhu-toolbox-tabs"):
+                # with gr.Tabs(elem_id="chuanhu-toolbox-tabs"):
                     with gr.Tab(label=i18n("对话")):
                         with gr.Accordion(label="Prompt", open=True):
                             systemPromptTxt = gr.Textbox(
@@ -807,4 +807,5 @@ if __name__ == "__main__":
         auth=auth_from_conf if authflag else None,
         favicon_path="./web_assets/favicon.ico",
         inbrowser=not dockerflag,  # 禁止在docker下开启inbrowser
+        root_path="/ailab-chat",
     )

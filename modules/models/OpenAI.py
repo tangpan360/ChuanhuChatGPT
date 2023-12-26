@@ -50,8 +50,15 @@ class OpenAIClient(BaseLLMModel):
     def get_answer_at_once(self):
         response = self._get_response()
         response = json.loads(response.text)
-        content = response["choices"][0]["message"]["content"]
-        total_token_count = response["usage"]["total_tokens"]
+        # content = response["choices"][0]["message"]["content"]
+        # total_token_count = response["usage"]["total_tokens"]
+        if list(response.keys())[0] == 'id':
+            content = response["choices"][0]["message"]["content"]
+            total_token_count = response["usage"]["total_tokens"]
+        elif list(response.keys())[0] == 'error':
+            if response['error']['code'] == 'context_length_exceeded':
+                content = '提醒：您的本次对话内容太多，已超出处理能力。请点击对话框右上角的 “+” 新建对话后重新开始！！！'
+                total_token_count = None
         return content, total_token_count
 
     def count_token(self, user_input):
@@ -198,9 +205,14 @@ class OpenAIClient(BaseLLMModel):
                 try:
                     chunk = json.loads(chunk[6:])
                 except:
-                    print(i18n("JSON解析错误,收到的内容: ") + f"{chunk}")
-                    error_msg += chunk
-                    continue
+                    try:
+                        chunk_check = json.loads(chunk)
+                        if chunk_check['error']['code'] == 'context_length_exceeded':
+                            chunk = {'id': 'chatcmpl-8ZeQcVfNfFzv2gZ7Nwt5xhAEcC255', 'object': 'chat.completion.chunk', 'created': 1703507578, 'model': 'gpt-3.5-turbo-0613', 'system_fingerprint': None, 'choices': [{'index': 0, 'delta': {'content': '提醒：您的本次对话内容太多，已超出处理能力。请点击对话框右上角的 “+” 新建对话后重新开始！！！'}, 'logprobs': None, 'finish_reason': None}]}
+                    except:
+                        print(i18n("JSON解析错误,收到的内容: ") + f"{chunk}")
+                        error_msg += chunk
+                        continue
                 try:
                     if chunk_length > 6 and "delta" in chunk["choices"][0]:
                         if "finish_reason" in chunk["choices"][0]:
